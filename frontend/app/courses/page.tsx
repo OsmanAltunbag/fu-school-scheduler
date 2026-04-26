@@ -133,63 +133,67 @@ export default function CoursesPage() {
       setForm(f => ({ ...f, [key]: e.target.value })),
   });
 
+  const selectClass = "w-full border border-slate-200 rounded-md px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white";
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Courses</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Courses</h1>
         <button
           onClick={openCreate}
-          className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700"
+          className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-md text-sm font-semibold transition-colors"
         >
           Add New
         </button>
       </div>
 
       {pageError && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+        <div className="border border-red-200 bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
           {pageError}
         </div>
       )}
 
       {loading ? (
-        <div className="text-gray-500 py-8 text-center">Loading...</div>
+        <div className="text-slate-400 py-12 text-center text-sm">Loading...</div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Subject</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Class</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Teacher</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Hours/Week</th>
-                <th className="text-right px-4 py-3 text-sm font-medium text-gray-600">Actions</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Subject</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Class</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Teacher</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Hrs/Week</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {courses.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center text-gray-400 py-12">
-                    No courses yet. Click &ldquo;Add New&rdquo; to create one.
+                  <td colSpan={5} className="text-center py-16">
+                    <div className="text-2xl mb-2">📖</div>
+                    <p className="text-slate-400 text-sm">No courses yet.</p>
+                    <p className="text-slate-300 text-xs mt-1">Click &ldquo;Add New&rdquo; to create one.</p>
                   </td>
                 </tr>
               ) : (
                 courses.map(c => (
-                  <tr key={c.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm">{c.subject.name}</td>
-                    <td className="px-4 py-3 text-sm">{c.class_group.name}</td>
-                    <td className="px-4 py-3 text-sm">{c.teacher.name}</td>
-                    <td className="px-4 py-3 text-sm">{c.weekly_hours}</td>
-                    <td className="px-4 py-3 text-right space-x-3">
+                  <tr key={c.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                    <td className="px-4 py-3 text-sm text-slate-900 font-medium">{c.subject.name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-600">{c.class_group.name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-600">{c.teacher.name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-500">{c.weekly_hours}h</td>
+                    <td className="px-4 py-3 text-right space-x-1">
                       <button
                         onClick={() => openEdit(c)}
-                        className="text-sm text-blue-600 hover:underline"
+                        className="text-xs font-medium text-slate-600 hover:text-slate-900 px-2 py-1 rounded hover:bg-slate-100 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(c.id)}
                         disabled={deletingId === c.id}
-                        className="text-sm text-red-600 hover:underline disabled:opacity-40"
+                        className="text-xs font-medium text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition-colors disabled:opacity-40"
                       >
                         {deletingId === c.id ? 'Deleting...' : 'Delete'}
                       </button>
@@ -203,19 +207,16 @@ export default function CoursesPage() {
       )}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md border border-slate-200">
+            <h2 className="text-base font-semibold text-slate-900 mb-5">
               {editing ? 'Edit Course' : 'New Course'}
             </h2>
 
             <div className="space-y-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                <select
-                  {...field('subject_id')}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Subject</label>
+                <select {...field('subject_id')} className={selectClass}>
                   <option value="">— Select subject —</option>
                   {subjects.map(s => (
                     <option key={s.id} value={s.id}>{s.name}</option>
@@ -224,11 +225,8 @@ export default function CoursesPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Class</label>
-                <select
-                  {...field('class_group_id')}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Class</label>
+                <select {...field('class_group_id')} className={selectClass}>
                   <option value="">— Select class —</option>
                   {classes.map(c => (
                     <option key={c.id} value={c.id}>{c.name} (Grade {c.grade_level})</option>
@@ -237,11 +235,8 @@ export default function CoursesPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Teacher</label>
-                <select
-                  {...field('teacher_id')}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Teacher</label>
+                <select {...field('teacher_id')} className={selectClass}>
                   <option value="">— Select teacher —</option>
                   {teachers.map(t => (
                     <option key={t.id} value={t.id}>
@@ -252,12 +247,12 @@ export default function CoursesPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Weekly Hours</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Weekly Hours</label>
                 <input
                   type="number"
                   min={1}
                   {...field('weekly_hours')}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={selectClass}
                 />
               </div>
             </div>
@@ -268,14 +263,14 @@ export default function CoursesPage() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setModalOpen(false)}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-sm text-slate-500 hover:text-slate-800 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+                className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-md text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {saving ? 'Saving...' : 'Save'}
               </button>

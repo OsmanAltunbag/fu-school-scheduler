@@ -31,17 +31,17 @@ export default function ScheduleGrid({ entries, viewMode }: Props) {
   const cellMap = buildCellMap(entries);
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse border border-gray-300 text-sm">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+      <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="bg-gray-50">
-            <th className="border border-gray-300 px-3 py-2 text-left font-medium text-gray-600 w-20">
+          <tr className="bg-slate-50 border-b border-slate-200">
+            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-24 border-r border-slate-200">
               Period
             </th>
             {DAYS.map((day) => (
               <th
                 key={day}
-                className="border border-gray-300 px-3 py-2 text-center font-medium text-gray-600"
+                className="px-4 py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider"
               >
                 {DAY_LABELS[day]}
               </th>
@@ -50,9 +50,9 @@ export default function ScheduleGrid({ entries, viewMode }: Props) {
         </thead>
         <tbody>
           {PERIODS.map((period) => (
-            <tr key={period}>
-              <td className="border border-gray-300 px-3 py-2 font-medium text-gray-500 bg-gray-50">
-                Period {period}
+            <tr key={period} className="border-b border-slate-100 last:border-0">
+              <td className="px-4 py-3 font-dm-mono text-xs text-slate-400 bg-slate-50 border-r border-slate-200">
+                P{period}
               </td>
               {DAYS.map((day) => {
                 const entry = cellMap[day]?.[period];
@@ -60,7 +60,7 @@ export default function ScheduleGrid({ entries, viewMode }: Props) {
                   return (
                     <td
                       key={day}
-                      className="border border-gray-300 px-3 py-2 bg-gray-100"
+                      className="px-3 py-3 bg-[#F8FAFC] border-r border-slate-100 last:border-0"
                     />
                   );
                 }
@@ -72,10 +72,12 @@ export default function ScheduleGrid({ entries, viewMode }: Props) {
                 return (
                   <td
                     key={day}
-                    className="border border-gray-300 px-3 py-2 bg-white"
+                    className="px-0 py-0 border-r border-slate-100 last:border-0"
                   >
-                    <span className="font-medium">{line1}</span>
-                    <span className="text-gray-500"> — {line2}</span>
+                    <div className="border-l-[3px] border-amber-500 bg-white px-3 py-2.5 h-full">
+                      <p className="font-semibold text-slate-900 text-xs leading-snug">{line1}</p>
+                      <p className="text-slate-500 text-xs mt-0.5">{line2}</p>
+                    </div>
                   </td>
                 );
               })}

@@ -98,14 +98,14 @@ export default function SchedulePage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Weekly Schedule</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Weekly Schedule</h1>
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+          className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-5 py-2.5 rounded-md text-sm font-semibold disabled:opacity-50 flex items-center gap-2 transition-colors shadow-sm"
         >
           {loading && (
-            <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+            <svg className="animate-spin h-4 w-4 text-slate-900" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
             </svg>
@@ -124,34 +124,37 @@ export default function SchedulePage() {
       )}
 
       {initialLoading ? (
-        <div className="text-gray-500 py-8 text-center">Loading...</div>
+        <div className="text-slate-400 py-12 text-center text-sm">Loading...</div>
       ) : !schedule ? (
         !conflictReport && (
-          <div className="text-center py-16 text-gray-400">
-            <p className="text-lg mb-2">No schedule generated yet.</p>
-            <p className="text-sm">Click <span className="font-medium text-gray-600">Generate Schedule</span> to start.</p>
+          <div className="text-center py-20">
+            <div className="text-4xl mb-3">🗓️</div>
+            <p className="text-slate-500 font-medium mb-1">No schedule generated yet.</p>
+            <p className="text-slate-400 text-sm">
+              Click <span className="font-semibold text-slate-600">Generate Schedule</span> to start.
+            </p>
           </div>
         )
       ) : (
         <div>
           <div className="flex flex-wrap items-center gap-3 mb-5">
-            <div className="flex rounded overflow-hidden border border-gray-300">
+            <div className="flex rounded-lg overflow-hidden border border-slate-200 bg-slate-50 p-0.5 gap-0.5">
               <button
                 onClick={() => setViewMode('class')}
-                className={`px-4 py-2 text-sm font-medium ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${
                   viewMode === 'class'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
                 By Class
               </button>
               <button
                 onClick={() => setViewMode('teacher')}
-                className={`px-4 py-2 text-sm font-medium ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${
                   viewMode === 'teacher'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
                 By Teacher
@@ -161,7 +164,7 @@ export default function SchedulePage() {
             <select
               value={selectedId}
               onChange={(e) => handleSelectId(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
             >
               <option value="">All {viewMode === 'class' ? 'Classes' : 'Teachers'}</option>
               {dropdownItems.map((item) => (

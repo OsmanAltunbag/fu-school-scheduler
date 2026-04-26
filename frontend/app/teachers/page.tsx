@@ -113,56 +113,58 @@ export default function TeachersPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Teachers</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Teachers</h1>
         <button
           onClick={openCreate}
-          className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700"
+          className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-md text-sm font-semibold transition-colors"
         >
           Add New
         </button>
       </div>
 
       {pageError && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+        <div className="border border-red-200 bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
           {pageError}
         </div>
       )}
 
       {loading ? (
-        <div className="text-gray-500 py-8 text-center">Loading...</div>
+        <div className="text-slate-400 py-12 text-center text-sm">Loading...</div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Name</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Available Slots</th>
-                <th className="text-right px-4 py-3 text-sm font-medium text-gray-600">Actions</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Available Slots</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {teachers.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="text-center text-gray-400 py-12">
-                    No teachers yet. Click &ldquo;Add New&rdquo; to create one.
+                  <td colSpan={3} className="text-center py-16">
+                    <div className="text-2xl mb-2">👨‍🏫</div>
+                    <p className="text-slate-400 text-sm">No teachers yet.</p>
+                    <p className="text-slate-300 text-xs mt-1">Click &ldquo;Add New&rdquo; to create one.</p>
                   </td>
                 </tr>
               ) : (
                 teachers.map(t => (
-                  <tr key={t.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm">{t.name}</td>
-                    <td className="px-4 py-3 text-sm">{t.available_slots.length} / 40</td>
-                    <td className="px-4 py-3 text-right space-x-3">
+                  <tr key={t.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                    <td className="px-4 py-3 text-sm text-slate-900 font-medium">{t.name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-500">{t.available_slots.length} / 40 slots</td>
+                    <td className="px-4 py-3 text-right space-x-1">
                       <button
                         onClick={() => openEdit(t)}
-                        className="text-sm text-blue-600 hover:underline"
+                        className="text-xs font-medium text-slate-600 hover:text-slate-900 px-2 py-1 rounded hover:bg-slate-100 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(t.id)}
                         disabled={deletingId === t.id}
-                        className="text-sm text-red-600 hover:underline disabled:opacity-40"
+                        className="text-xs font-medium text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition-colors disabled:opacity-40"
                       >
                         {deletingId === t.id ? 'Deleting...' : 'Delete'}
                       </button>
@@ -176,51 +178,51 @@ export default function TeachersPage() {
       )}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-lg font-semibold mb-4">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-slate-200">
+            <h2 className="text-base font-semibold text-slate-900 mb-5">
               {editing ? 'Edit Teacher' : 'New Teacher'}
             </h2>
             <div className="mb-5">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Name</label>
               <input
                 value={name}
                 onChange={e => setName(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-200 rounded-md px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 placeholder="e.g. Jane Smith"
                 autoFocus
               />
             </div>
 
             <div className="mb-5">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Availability ({selectedSlotIds.size} slots selected)
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Availability <span className="text-amber-600 normal-case font-medium">({selectedSlotIds.size} selected)</span>
                 </label>
-                <div className="flex gap-2 text-xs">
+                <div className="flex gap-3 text-xs">
                   <button
                     type="button"
                     onClick={() => setSelectedSlotIds(new Set(timeslots.map(s => s.id)))}
-                    className="text-blue-600 hover:underline"
+                    className="text-amber-600 hover:text-amber-700 font-medium"
                   >
                     Select all
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedSlotIds(new Set())}
-                    className="text-gray-500 hover:underline"
+                    className="text-slate-400 hover:text-slate-600"
                   >
                     Clear
                   </button>
                 </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="border-collapse text-xs">
+                <table className="border-collapse">
                   <thead>
                     <tr>
-                      <th className="w-16 px-2 py-1 text-gray-500 font-medium text-left">Period</th>
+                      <th className="w-12 pr-3 py-1 text-slate-400 font-dm-mono text-xs text-left">P</th>
                       {DAYS.map(d => (
-                        <th key={d} className="w-16 px-2 py-1 text-center text-gray-600 font-medium">
+                        <th key={d} className="w-10 px-1 py-1 text-center font-dm-mono text-xs text-slate-500 uppercase">
                           {DAY_LABELS[d]}
                         </th>
                       ))}
@@ -229,7 +231,7 @@ export default function TeachersPage() {
                   <tbody>
                     {PERIODS.map(period => (
                       <tr key={period}>
-                        <td className="px-2 py-1 text-gray-500 font-medium">{period}</td>
+                        <td className="pr-3 py-1 font-dm-mono text-xs text-slate-400">{period}</td>
                         {DAYS.map(day => {
                           const slot = slotMap[day]?.[period];
                           const selected = slot ? selectedSlotIds.has(slot.id) : false;
@@ -239,13 +241,13 @@ export default function TeachersPage() {
                                 type="button"
                                 disabled={!slot}
                                 onClick={() => slot && toggleSlot(slot.id)}
-                                className={`w-14 h-8 rounded text-xs font-medium transition-colors ${
+                                className={`w-9 h-9 rounded text-xs font-medium transition-all ${
                                   selected
-                                    ? 'bg-blue-500 text-white hover:bg-blue-600'
-                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                    ? 'bg-slate-900 text-white border border-slate-900 hover:bg-slate-700'
+                                    : 'bg-slate-100 text-transparent border border-slate-300 hover:bg-slate-200'
                                 } disabled:opacity-30`}
                               >
-                                {selected ? '✓' : ''}
+                                {selected ? '·' : ''}
                               </button>
                             </td>
                           );
@@ -263,14 +265,14 @@ export default function TeachersPage() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setModalOpen(false)}
-                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-sm text-slate-500 hover:text-slate-800 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+                className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-md text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {saving ? 'Saving...' : 'Save'}
               </button>
