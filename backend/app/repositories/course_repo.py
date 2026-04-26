@@ -41,6 +41,22 @@ def create(db: Session, subject_id: str, class_group_id: str, teacher_id: str, w
     return get_by_id(db, course.id)  # type: ignore[arg-type]
 
 
+def update(
+    db: Session,
+    course: Course,
+    subject_id: str,
+    class_group_id: str,
+    teacher_id: str,
+    weekly_hours: int,
+) -> Course:
+    course.subject_id = subject_id
+    course.class_group_id = class_group_id
+    course.teacher_id = teacher_id
+    course.weekly_hours = weekly_hours
+    db.commit()
+    return get_by_id(db, course.id)  # type: ignore[arg-type]
+
+
 def delete(db: Session, course: Course) -> None:
     db.delete(course)
     db.commit()

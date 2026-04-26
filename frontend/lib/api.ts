@@ -124,6 +124,11 @@ export const createCourse = (data: {
   weekly_hours: number;
 }) => request<Course>('/courses', { method: 'POST', body: JSON.stringify(data) });
 
+export const updateCourse = (
+  id: string,
+  data: { subject_id: string; class_group_id: string; teacher_id: string; weekly_hours: number },
+) => request<Course>(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+
 export const deleteCourse = (id: string) =>
   request<void>(`/courses/${id}`, { method: 'DELETE' });
 

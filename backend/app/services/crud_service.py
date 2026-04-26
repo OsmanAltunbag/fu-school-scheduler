@@ -182,6 +182,38 @@ def create_course(db: Session, data: CourseCreate) -> Course:
     )
 
 
+def update_course(db: Session, course_id: str, data: CourseCreate) -> Course:
+    course = get_course(db, course_id)
+    teacher = get_teacher(db, str(data.teacher_id))
+    get_class_group(db, str(data.class_group_id))
+    get_subject(db, str(data.subject_id))
+
+    if data.weekly_hours > len(teacher.available_slots):
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Teacher {teacher.name} has {len(teacher.available_slots)} available slots "
+                f"but course requires {data.weekly_hours} weekly hours."
+            ),
+        )
+
+    existing = course_repo.get_by_subject_class(db, str(data.subject_id), str(data.class_group_id))
+    if existing and existing.id != course_id:
+        raise HTTPException(
+            status_code=409,
+            detail="This subject + class combination already exists in another course.",
+        )
+
+    return course_repo.update(
+        db,
+        course,
+        subject_id=str(data.subject_id),
+        class_group_id=str(data.class_group_id),
+        teacher_id=str(data.teacher_id),
+        weekly_hours=data.weekly_hours,
+    )
+
+
 def delete_course(db: Session, course_id: str) -> None:
     course = get_course(db, course_id)
     course_repo.delete(db, course)

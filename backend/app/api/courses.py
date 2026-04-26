@@ -23,6 +23,11 @@ def get_course(course_id: str, db: Session = Depends(get_db)):
     return crud_service.get_course(db, course_id)
 
 
+@router.put("/{course_id}", response_model=CourseRead)
+def update_course(course_id: str, data: CourseCreate, db: Session = Depends(get_db)):
+    return crud_service.update_course(db, course_id, data)
+
+
 @router.delete("/{course_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_course(course_id: str, db: Session = Depends(get_db)):
     crud_service.delete_course(db, course_id)
