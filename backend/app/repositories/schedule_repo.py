@@ -29,3 +29,17 @@ def get_latest(db: Session) -> Schedule | None:
         .order_by(Schedule.generated_at.desc())
         .first()
     )
+
+
+def get_entries_by_class(db: Session, class_id: str) -> list[ScheduleEntry]:
+    schedule = get_latest(db)
+    if schedule is None:
+        return []
+    return [e for e in schedule.entries if e.course.class_group_id == class_id]
+
+
+def get_entries_by_teacher(db: Session, teacher_id: str) -> list[ScheduleEntry]:
+    schedule = get_latest(db)
+    if schedule is None:
+        return []
+    return [e for e in schedule.entries if e.course.teacher_id == teacher_id]

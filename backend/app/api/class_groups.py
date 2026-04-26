@@ -8,12 +8,12 @@ from app.services import crud_service
 router = APIRouter()
 
 
-@router.get("/", response_model=list[ClassGroupRead])
+@router.get("", response_model=list[ClassGroupRead])
 def list_class_groups(db: Session = Depends(get_db)):
     return crud_service.get_class_groups(db)
 
 
-@router.post("/", response_model=ClassGroupRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ClassGroupRead, status_code=status.HTTP_201_CREATED)
 def create_class_group(data: ClassGroupCreate, db: Session = Depends(get_db)):
     return crud_service.create_class_group(db, data)
 

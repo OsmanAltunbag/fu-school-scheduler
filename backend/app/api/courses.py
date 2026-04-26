@@ -8,12 +8,12 @@ from app.services import crud_service
 router = APIRouter()
 
 
-@router.get("/", response_model=list[CourseRead])
+@router.get("", response_model=list[CourseRead])
 def list_courses(db: Session = Depends(get_db)):
     return crud_service.get_courses(db)
 
 
-@router.post("/", response_model=CourseRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=CourseRead, status_code=status.HTTP_201_CREATED)
 def create_course(data: CourseCreate, db: Session = Depends(get_db)):
     return crud_service.create_course(db, data)
 

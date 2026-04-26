@@ -8,12 +8,12 @@ from app.services import crud_service
 router = APIRouter()
 
 
-@router.get("/", response_model=list[SubjectRead])
+@router.get("", response_model=list[SubjectRead])
 def list_subjects(db: Session = Depends(get_db)):
     return crud_service.get_subjects(db)
 
 
-@router.post("/", response_model=SubjectRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SubjectRead, status_code=status.HTTP_201_CREATED)
 def create_subject(data: SubjectCreate, db: Session = Depends(get_db)):
     return crud_service.create_subject(db, data)
 
