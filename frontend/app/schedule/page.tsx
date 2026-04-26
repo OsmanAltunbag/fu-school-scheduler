@@ -95,23 +95,43 @@ export default function SchedulePage() {
 
   const dropdownItems = viewMode === 'class' ? classes : teachers;
 
+  const printDate = new Date().toLocaleDateString('en-GB', {
+    day: '2-digit', month: 'long', year: 'numeric',
+  });
+
   return (
     <div>
+      <div className="print-title text-xl font-bold text-slate-900 mb-4">
+        Weekly Schedule — {printDate}
+      </div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-slate-900">Weekly Schedule</h1>
-        <button
-          onClick={handleGenerate}
-          disabled={loading}
-          className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-5 py-2.5 rounded-md text-sm font-semibold disabled:opacity-50 flex items-center gap-2 transition-colors shadow-sm"
-        >
-          {loading && (
-            <svg className="animate-spin h-4 w-4 text-slate-900" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-            </svg>
+        <div className="flex items-center gap-2 no-print">
+          {schedule && (
+            <button
+              onClick={() => window.print()}
+              className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-colors shadow-sm"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              </svg>
+              Download PDF
+            </button>
           )}
-          {loading ? 'Generating...' : 'Generate Schedule'}
-        </button>
+          <button
+            onClick={handleGenerate}
+            disabled={loading}
+            className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-5 py-2.5 rounded-md text-sm font-semibold disabled:opacity-50 flex items-center gap-2 transition-colors shadow-sm"
+          >
+            {loading && (
+              <svg className="animate-spin h-4 w-4 text-slate-900" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+              </svg>
+            )}
+            {loading ? 'Generating...' : 'Generate Schedule'}
+          </button>
+        </div>
       </div>
 
       {conflictReport && (
@@ -137,7 +157,7 @@ export default function SchedulePage() {
         )
       ) : (
         <div>
-          <div className="flex flex-wrap items-center gap-3 mb-5">
+          <div className="flex flex-wrap items-center gap-3 mb-5 no-print">
             <div className="flex rounded-lg overflow-hidden border border-slate-200 bg-slate-50 p-0.5 gap-0.5">
               <button
                 onClick={() => setViewMode('class')}
