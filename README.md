@@ -10,7 +10,7 @@
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite)](https://sqlite.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
-[Live Demo](#) · [API Docs](#api-documentation) · [Design Specs](specs/001-school-scheduler/spec.md)
+[Live Demo](https://fu-school-scheduler.vercel.app) · [API Docs](https://fu-school-scheduler.onrender.com/docs) · [Design Specs](specs/001-school-scheduler/spec.md)
 
 </div>
 
@@ -220,6 +220,21 @@ OR-Tools is used in Google's internal scheduling systems. The model formulation,
 ### Constraints Not Included (Out of Scope)
 
 Soft constraints (teacher preferences, lesson distribution balance), room assignment, drag-and-drop editing, authentication, multi-tenancy, notifications, and export features are explicitly out of scope for this MVP.
+
+---
+
+## Live Demo
+
+| | URL |
+|--|-----|
+| Frontend | https://fu-school-scheduler.vercel.app |
+| Backend API Docs | https://fu-school-scheduler.onrender.com/docs |
+
+---
+
+## AI Tool Usage
+
+This project was developed using Spec-Driven Development (SDD) with Claude Code as an AI pair-programmer. All architectural decisions, constraint modeling, and problem formulation were done by the developer. Claude Code was used to accelerate implementation based on pre-written specifications in the `specs/` folder.
 
 ---
 
